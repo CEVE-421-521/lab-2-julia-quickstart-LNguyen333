@@ -231,11 +231,23 @@ plot(
     df_climatology.day, # <1>
     df_climatology.lsl_avg;
     tickfontsize=5,
-    xticks=1:365, # <2>
+    xticks=0:40:365, # <2>
     xlabel="Day",
     ylabel="Average Water level",
     linewidth=3, # <3>
     label=false,
 )
 ```
-# I notice that both graphs have a similar shape with peaks in June and September. Differences include that the group by day graph is messier as it deals with more data than the group by month graph. Additionally, the group by day graph has significant rises and drops while the group by month graph has a relatively smooth line. 
+# I noticed that both graphs have a similar shape with peaks in June and September. Differences include that the group by day graph is messier as it deals with more data than the group by month graph. Additionally, the group by day graph has significant rises and drops while the group by month graph has a relatively smooth line. 
+```{julia}
+scatter( #for testing purposes
+    df_climatology.day, # <1>
+    df_climatology.lsl_avg;
+    tickfontsize=5,
+    xticks=0:40:365, # <2>
+    xlabel="Day",
+    ylabel="Average Water level",
+    linewidth=3, # <3>
+    label=false,
+)
+```
