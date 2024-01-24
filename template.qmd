@@ -104,10 +104,10 @@ function read_tides(year::Int)
 
     # 5. select the "datetime" and "lsl" columns
     df = @select(df, :datetime, :lsl)
-    first(df, 10)
+    
 
     # 6. return the dataframe
-    
+    return df
 
 end
 
@@ -217,5 +217,25 @@ plot(
     label=false,
 )
 ```
-1. Now repeat the analysis, but group by day of the year. What do you notice? (**Hint**: use `Dates.dayofyear` to get the day of the year from a `DateTime` object)
 
+1. Now repeat the analysis, but group by day of the year. What do you notice? (**Hint**: use `Dates.dayofyear` to get the day of the year from a `DateTime` object)
+```{julia}
+#| output: false
+df[!, :day] = Dates.dayofyear.(df.datetime) # <1>
+dropmissing!(df, :lsl) # <2>
+df_byday = groupby(df, :day) # <3>
+df_climatology = combine(df_byday, :lsl => mean => :lsl_avg); # <4>
+```
+```{julia}
+plot(
+    df_climatology.day, # <1>
+    df_climatology.lsl_avg;
+    tickfontsize=5,
+    xticks=1:365, # <2>
+    xlabel="Day",
+    ylabel="Average Water level",
+    linewidth=3, # <3>
+    label=false,
+)
+```
+# I notice that both graphs have a similar shape with peaks in June and September. Differences include that the group by day graph is messier as it deals with more data than the group by month graph. Additionally, the group by day graph has significant rises and drops while the group by month graph has a relatively smooth line. 
